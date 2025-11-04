@@ -50,4 +50,6 @@ int main(int argc, char **argv)
 
         CloseServer(mainSk);
     }
+
+    return 0;
 }
