@@ -44,7 +44,7 @@ int main(int argc, char **argv)
         char recvBuff[RECV_BUFF_SZ];
         int usedBuff; 
         clock_t timeFlag = clock();
-        char disconnectMsj[] = "Conexion terminada";
+        char disconnectMsj[] = "Conexion terminada por timeout\n";
         while(1)
         {
             if(((clock()-timeFlag)/CLOCKS_PER_SEC)>CLIENT_TIMEOUT_SEC){
