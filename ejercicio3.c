@@ -25,12 +25,12 @@ void reverseStr(char* str)
 
 void* funcMain(void* clientSk)
 {
+    int sk = *(int*)clientSk; //posible problema??
     char recvBuff[RECV_BUFF_SZ];
     int usedBuff; 
     clock_t timeFlag;
     char disconnectMsj[RECV_BUFF_SZ];
     int boolMsj = 1;
-    int sk = *(int*)clientSk;
     fprintf(stdout,"pid: %d    thread-id: %ld    client-socket: %d\n", getpid(), pthread_self(), sk);
     while(1)
     {
@@ -83,11 +83,15 @@ int main(int argc, char **argv)
         return -1;
     }
 
-
-    pthread_t threadId;
+    pthread_t threadId; //puedo usar una sola varible??
     while(1){
         int clientSk = AcceptClient(mainSk);
-        pthread_create(&threadId, NULL, funcMain, (void*)&clientSk);
+        int ret;
+        ret = pthread_create(&threadId, NULL, funcMain, (void*)&clientSk); //es seguro usar clientSk para todos los hilos sin un mutex??
+        if(ret){
+            fprintf(stderr,"Error al crear el thread. Error numero: %d\n", ret);
+            exit(1);
+        }
     }
     return 0;
 }
